@@ -2,15 +2,16 @@ package com.example.taskmanager.rest;
 
 import com.example.taskmanager.api.CreateTaskDto;
 import com.example.taskmanager.api.TaskDto;
+import com.example.taskmanager.facade.TaskFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,6 +21,13 @@ import java.util.List;
         description = "Tasks API"
 )
 public class TaskController {
+
+    private final TaskFacade<Long> taskFacade;
+
+    @Autowired
+    public TaskController(TaskFacade<Long> taskFacade) {
+        this.taskFacade = taskFacade;
+    }
 
     @Operation(
             summary = "Fetch all Tasks (ordered).",
@@ -31,7 +39,7 @@ public class TaskController {
     )
     @GetMapping("/tasks")
     public ResponseEntity<List<TaskDto>> getAllTasks() {
-        return ResponseEntity.ok(new ArrayList<>());
+        return ResponseEntity.ok(taskFacade.findAll());
     }
 
     @Operation(
@@ -52,7 +60,7 @@ public class TaskController {
     )
     @GetMapping("/tasks/{id}")
     public ResponseEntity<TaskDto> getTaskById(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok(new TaskDto());
+        return ResponseEntity.of(taskFacade.findById(id));
     }
 
     @Operation(
@@ -73,7 +81,7 @@ public class TaskController {
     )
     @PostMapping("/tasks")
     public ResponseEntity<TaskDto> createTask(@Valid @RequestBody CreateTaskDto createTaskDto) {
-        return ResponseEntity.ok(new TaskDto());
+        return ResponseEntity.ok(taskFacade.save(createTaskDto));
     }
 
     @Operation(
@@ -98,7 +106,7 @@ public class TaskController {
     )
     @PutMapping("/tasks/{id}")
     public ResponseEntity<TaskDto> updateTask(@PathVariable(value = "id") Long id, @Valid @RequestBody CreateTaskDto createTaskDto) {
-        return ResponseEntity.ok(new TaskDto());
+        return ResponseEntity.ok(taskFacade.update(id, createTaskDto));
     }
 
     @Operation(
@@ -119,6 +127,7 @@ public class TaskController {
     )
     @DeleteMapping("/tasks/{id}")
     public ResponseEntity<Void> deleteTaskById(@PathVariable(value = "id") Long id) {
+        taskFacade.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -14,10 +14,6 @@ import java.time.LocalDateTime;
 )
 public class CreateTaskDto {
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
     private LocalDateTime dueDate;
 
     private LocalDateTime resolvedAt;

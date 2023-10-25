@@ -5,6 +5,7 @@ import com.example.taskmanager.data.repository.TaskRepository;
 import com.example.taskmanager.exceptions.TaskNotFoundException;
 import com.example.taskmanager.service.common.BaseServiceImpl;
 import jakarta.validation.Validator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
 
     private final TaskRepository taskRepository;
 
+    @Autowired
     public TaskServiceImpl(TaskRepository taskRepository, Validator validator) {
         super(taskRepository, validator);
         this.taskRepository = taskRepository;

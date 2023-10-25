@@ -1,0 +1,15 @@
+version: '3'
+services:
+  db:
+    image: postgres:${POSTGRES_VERSION}
+    container_name: task_db
+    volumes:
+      - task-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${TASK_DB_PASSWORD}
+      - POSTGRES_USER=${TASK_DB_USER}
+      - POSTGRES_DB=${TASK_DB_NAME}
+    ports:
+      - "5432:5432"
+volumes:
+  task_db: {}

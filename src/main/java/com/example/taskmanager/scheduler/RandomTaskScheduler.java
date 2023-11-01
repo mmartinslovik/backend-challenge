@@ -33,6 +33,7 @@ public class RandomTaskScheduler {
     public void createTask() {
         CreateTaskDto taskDto = new CreateTaskDto();
         taskDto.setDueDate(generateRandomLocalDateTime());
+        taskDto.setResolvedAt(generateRandomLocalDateTime());
         taskDto.setTitle(generateRandomString(10));
         taskDto.setDescription(generateRandomString(20));
         taskDto.setPriority(generateRandomPriority());
